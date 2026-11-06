@@ -1,72 +1,11 @@
 # sistema de solicitudes academicas
-import json
-from dataclasses import asdict
 from datetime import date
 
-from gestion_solicitudes.modelos import (
-    ErrorSolicitud,
-    Estado,
-    Estudiante,
-    NuevaSolicitud,
-    Prioridad,
-    Responsable,
-    Solicitud,
-    Tipo,
-)
+from gestion_solicitudes.modelos import ErrorSolicitud, Estado, NuevaSolicitud, Prioridad, Solicitud, Tipo
+from gestion_solicitudes.repositorio import RepositorioJson
 
-solicitudes = []
-estudiantes = []
-responsables = []
 ARCHIVO_DATOS = "datos.json"
-
-
-def solicitud_desde_dict(datos):
-    return Solicitud(
-        datos["id"], datos["legajo"], Tipo(datos["tipo"]), Prioridad(datos["prioridad"]), datos["descripcion"],
-        date.fromisoformat(datos["fecha"]), date.fromisoformat(datos["vence"]), Estado(datos["estado"]),
-        datos["responsable"],
-    )
-
-
-def solicitud_a_dict(solicitud):
-    return {
-        **asdict(solicitud),
-        "tipo": solicitud.tipo.value,
-        "prioridad": solicitud.prioridad.value,
-        "fecha": solicitud.fecha.isoformat(),
-        "vence": solicitud.vence.isoformat(),
-        "estado": solicitud.estado.value,
-    }
-
-
-def cargar():
-    global solicitudes, estudiantes, responsables
-    try:
-        f = open(ARCHIVO_DATOS)
-        d = json.load(f)
-        f.close()
-        solicitudes = [solicitud_desde_dict(s) for s in d["solicitudes"]]
-        estudiantes = [Estudiante(**e) for e in d["estudiantes"]]
-        responsables = [Responsable(**r) for r in d["responsables"]]
-    except:
-        # si no se puede leer arrancamos con los datos de ejemplo
-        estudiantes = [Estudiante("1001", "Ana Prueba"), Estudiante("1002", "Bruno Ejemplo")]
-        responsables = [Responsable(1, "Diego Bedel", "Bedelia"), Responsable(2, "Elena Secretaria", "Secretaria")]
-        solicitudes = []
-
-
-def guardar():
-    f = open(ARCHIVO_DATOS, "w")
-    json.dump(
-        {
-            "solicitudes": [solicitud_a_dict(s) for s in solicitudes],
-            "estudiantes": [asdict(e) for e in estudiantes],
-            "responsables": [asdict(r) for r in responsables],
-        },
-        f,
-        indent=2,
-    )
-    f.close()
+repositorio = None
 
 
 def buscar_por(lista, atributo, valor, error):
@@ -84,7 +23,7 @@ def imprimir_filas(lista):
 
 def pedir_solicitud():
     numero = int(input("Numero de solicitud: "))
-    return buscar_por(solicitudes, "id", numero, "no existe la solicitud")
+    return buscar_por(repositorio.solicitudes, "id", numero, "no existe la solicitud")
 
 
 def pedir_opcion(pregunta, opciones, error):
@@ -98,13 +37,13 @@ def pedir_opcion(pregunta, opciones, error):
 def registrar():
     print("--- Registrar solicitud ---")
     legajo = input("Legajo: ")
-    estudiante = buscar_por(estudiantes, "legajo", legajo, "no existe el estudiante")
+    estudiante = buscar_por(repositorio.estudiantes, "legajo", legajo, "no existe el estudiante")
     tipo = pedir_opcion("Tipo", list(Tipo), "tipo invalido")
     prioridad = pedir_opcion("Prioridad", list(Prioridad), "prioridad invalida")
     nueva = NuevaSolicitud(legajo, tipo, prioridad, input("Descripcion: "))
-    solicitud = Solicitud.crear(len(solicitudes) + 1, nueva, date.today())
-    solicitudes.append(solicitud)
-    guardar()
+    solicitud = Solicitud.crear(len(repositorio.solicitudes) + 1, nueva, date.today())
+    repositorio.solicitudes.append(solicitud)
+    repositorio.guardar()
     print(f"Solicitud {solicitud.id} registrada para {estudiante.nombre}")
     print(f"Prioridad: {solicitud.prioridad.value} - Vence: {solicitud.vence}")
 
@@ -116,19 +55,19 @@ def cambiar_estado():
     destinos = [Estado.EN_PROCESO, Estado.RESUELTA, Estado.RECHAZADA]
     nuevo = pedir_opcion("Nuevo estado", destinos, "estado invalido")
     solicitud.cambiar_estado(nuevo)
-    guardar()
+    repositorio.guardar()
     print(f"Estado actualizado a {nuevo.value}")
 
 
 def asignar():
     print("--- Asignar responsable ---")
     solicitud = pedir_solicitud()
-    for responsable in responsables:
+    for responsable in repositorio.responsables:
         print(f"{responsable.id} - {responsable.nombre} ({responsable.area})")
     numero = int(input("Numero de responsable: "))
-    responsable = buscar_por(responsables, "id", numero, "no existe el responsable")
+    responsable = buscar_por(repositorio.responsables, "id", numero, "no existe el responsable")
     solicitud.asignar(responsable)
-    guardar()
+    repositorio.guardar()
     print(f"Responsable asignado: {responsable.nombre}")
 
 
@@ -140,25 +79,25 @@ def buscar():
     opcion = input("Opcion: ")
     if opcion == "1":
         valor = input("Estado: ")
-        imprimir_filas([s for s in solicitudes if s.estado.value == valor])
+        imprimir_filas([s for s in repositorio.solicitudes if s.estado.value == valor])
     elif opcion == "2":
         valor = input("Legajo: ")
-        imprimir_filas([s for s in solicitudes if s.legajo == valor])
+        imprimir_filas([s for s in repositorio.solicitudes if s.legajo == valor])
     elif opcion == "3":
-        imprimir_filas(solicitudes)
+        imprimir_filas(repositorio.solicitudes)
     else:
         print("Opcion invalida")
 
 
 def contar_estado(estado):
-    return len([s for s in solicitudes if s.estado is estado])
+    return len([s for s in repositorio.solicitudes if s.estado is estado])
 
 
 def reporte():
     print("--- Reporte general ---")
     hoy = date.today()
-    vencidas = [s for s in solicitudes if s.esta_vencida(hoy)]
-    print(f"Total: {len(solicitudes)}")
+    vencidas = [s for s in repositorio.solicitudes if s.esta_vencida(hoy)]
+    print(f"Total: {len(repositorio.solicitudes)}")
     print(f"Pendientes: {contar_estado(Estado.PENDIENTE)}")
     print(f"En proceso: {contar_estado(Estado.EN_PROCESO)}")
     print(f"Resueltas: {contar_estado(Estado.RESUELTA)}")
@@ -167,7 +106,8 @@ def reporte():
 
 
 def main():
-    cargar()
+    global repositorio
+    repositorio = RepositorioJson(ARCHIVO_DATOS)
     while True:
         print("")
         print("=== Solicitudes Academicas ===")
