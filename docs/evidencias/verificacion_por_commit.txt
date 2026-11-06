@@ -1,7 +1,7 @@
 Prueba de caracterizacion en cada commit, desde que existe la red de seguridad:
 
 f8373bc | 1 passed in 0.09s | test: agrega pruebas de caracterizacion sobre la version ini
-a490438 | 1 passed in 0.08s | refactor: Extract Method en registrar, cambiar_estado, asign
+a490438 | 1 passed in 0.09s | refactor: Extract Method en registrar, cambiar_estado, asign
 1266140 | 1 passed in 0.11s | refactor: Replace Type Code con Enum y dict por dataclass
 acc0b11 | 1 passed in 0.11s | refactor: Introduce Parameter Object en crear_solicitud
 e2e0371 | 1 passed in 0.11s | refactor: Move Method de reglas de negocio hacia las entidad
@@ -9,3 +9,5 @@ c0150ea | 1 passed in 0.12s | refactor: Extract Class para la persistencia
 d84a528 | 1 passed in 0.13s | refactor: Extract Class para casos de uso y consola
 942e4c2 | 1 passed in 0.12s | test: agrega pruebas unitarias de reglas, servicio, reposito
 f08f71e | 1 passed in 0.12s | fix: corrige los defectos visibles detectados en el diagnost
+f955775 | 1 passed in 0.12s | test: registra la verificacion del comportamiento y sus evid
+dca186f | 1 passed in 0.12s | fix: aplica las correcciones del code review

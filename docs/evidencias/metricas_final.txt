@@ -1,0 +1,79 @@
+### radon cc (complejidad ciclomatica)
+main.py
+    F 13:0 main - A (3)
+gestion_solicitudes/modelos.py
+    M 108:4 Solicitud.cambiar_estado - A (5)
+    C 67:0 NuevaSolicitud - A (3)
+    C 83:0 Solicitud - A (3)
+    M 117:4 Solicitud.asignar - A (3)
+    M 75:4 NuevaSolicitud.__post_init__ - A (2)
+    M 95:4 Solicitud.crear - A (2)
+    M 105:4 Solicitud.esta_vencida - A (2)
+    C 10:0 ErrorSolicitud - A (1)
+    C 14:0 Estado - A (1)
+    C 21:0 Prioridad - A (1)
+    C 27:0 Tipo - A (1)
+    C 34:0 Regla - A (1)
+    C 54:0 Estudiante - A (1)
+    C 60:0 Responsable - A (1)
+    M 102:4 Solicitud.esta_abierta - A (1)
+gestion_solicitudes/repositorio.py
+    M 36:4 RepositorioJson._leer - B (6)
+    C 19:0 RepositorioJson - A (5)
+    M 24:4 RepositorioJson.guardar - A (4)
+    F 53:0 _estudiantes_de_ejemplo - A (1)
+    F 57:0 _responsables_de_ejemplo - A (1)
+    F 64:0 _solicitud_desde_dict - A (1)
+    F 78:0 _solicitud_a_dict - A (1)
+    M 20:4 RepositorioJson.__init__ - A (1)
+gestion_solicitudes/servicio.py
+    F 55:0 resumir - A (4)
+    M 44:4 ServicioSolicitudes.buscar - A (4)
+    F 68:0 _buscar - A (3)
+    C 8:0 ServicioSolicitudes - A (2)
+    M 13:4 ServicioSolicitudes.registrar - A (2)
+    M 9:4 ServicioSolicitudes.__init__ - A (1)
+    M 22:4 ServicioSolicitudes.cambiar_estado - A (1)
+    M 26:4 ServicioSolicitudes.asignar - A (1)
+    M 35:4 ServicioSolicitudes.obtener_estudiante - A (1)
+    M 38:4 ServicioSolicitudes.obtener_solicitud - A (1)
+    M 41:4 ServicioSolicitudes.responsables - A (1)
+    M 51:4 ServicioSolicitudes.reporte_general - A (1)
+gestion_solicitudes/consola.py
+    F 14:0 ejecutar - B (6)
+    F 71:0 buscar - A (5)
+    F 107:0 pedir_opcion - A (4)
+    F 61:0 asignar - A (2)
+    F 94:0 reporte - A (2)
+    F 100:0 pedir_numero - A (2)
+    F 41:0 registrar - A (1)
+    F 52:0 cambiar_estado - A (1)
+
+44 blocks (classes, functions, methods) analyzed.
+Average complexity: A (2.1818181818181817)
+
+### radon mi (indice de mantenibilidad)
+main.py - A (67.34)
+gestion_solicitudes/__init__.py - A (100.00)
+gestion_solicitudes/modelos.py - A (43.51)
+gestion_solicitudes/repositorio.py - A (67.13)
+gestion_solicitudes/servicio.py - A (48.59)
+gestion_solicitudes/consola.py - A (43.77)
+
+### radon raw (totales)
+** Total **
+    LOC: 420
+    LLOC: 285
+    SLOC: 324
+    Comments: 2
+    Single comments: 11
+    Multi: 0
+    Blank: 85
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 1%
+        (C + M % L): 0%
+
+### ruff (E,F,W,C90,N,PLR,BLE)
+gestion_solicitudes/modelos.py:10:7: N818 Exception name `ErrorSolicitud` should be named with an Error suffix
+Found 1 error.

@@ -1,4 +1,4 @@
-"""Interfaz por consola: el único módulo que usa input y print."""
+"""Interfaz por consola: toda la interacción con el usuario durante el uso del sistema."""
 
 from gestion_solicitudes.modelos import (
     ErrorSolicitud,

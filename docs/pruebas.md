@@ -35,9 +35,10 @@ La versión inicial no admitía pruebas unitarias porque importar `main.py` ejec
 
 | Evidencia | Archivo |
 |---|---|
-| Suite completa | [`pruebas_resultado.txt`](evidencias/pruebas_resultado.txt) |
+| Suite completa (35 pruebas) | [`pruebas_resultado.txt`](evidencias/pruebas_resultado.txt) |
 | Caracterización en cada commit | [`verificacion_por_commit.txt`](evidencias/verificacion_por_commit.txt) |
-| Defectos antes y después de corregir | [`correcciones_antes.txt`](evidencias/correcciones_antes.txt), [`correcciones_despues.txt`](evidencias/correcciones_despues.txt) |
+| Defectos antes y después de corregir (8 fallan, 8 pasan) | [`correcciones_antes.txt`](evidencias/correcciones_antes.txt), [`correcciones_despues.txt`](evidencias/correcciones_despues.txt) |
+| Sesiones de consola de ambas versiones (idénticas) | [`demo_consola_inicial.txt`](evidencias/demo_consola_inicial.txt), [`demo_consola_final.txt`](evidencias/demo_consola_final.txt) |
 
 Para repetir la verificación en cualquier punto del historial:
 

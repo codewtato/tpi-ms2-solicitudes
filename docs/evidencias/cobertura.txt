@@ -1,0 +1,10 @@
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+gestion_solicitudes/__init__.py          0      0   100%
+gestion_solicitudes/consola.py          77     36    53%
+gestion_solicitudes/modelos.py          63      0   100%
+gestion_solicitudes/repositorio.py      32      0   100%
+gestion_solicitudes/servicio.py         41      1    98%
+main.py                                 17      3    82%
+--------------------------------------------------------
+TOTAL                                  230     40    83%

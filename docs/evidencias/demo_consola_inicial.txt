@@ -1,0 +1,104 @@
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: 1
+--- Registrar solicitud ---
+Legajo: 1001
+Tipo (certificado/equivalencia/reclamo): certificado
+Prioridad (alta/media/baja): media
+Descripcion: Certificado de alumno regular
+Solicitud 1 registrada para Ana Prueba
+Prioridad: media - Vence: 2026-11-11
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: 1
+--- Registrar solicitud ---
+Legajo: 1002
+Tipo (certificado/equivalencia/reclamo): reclamo
+Prioridad (alta/media/baja): baja
+Descripcion: Revision de nota del parcial 2
+Solicitud 2 registrada para Bruno Ejemplo
+Prioridad: alta - Vence: 2026-11-13
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: 3
+--- Asignar responsable ---
+Numero de solicitud: 1
+1 - Diego Bedel (Bedelia)
+2 - Elena Secretaria (Secretaria)
+Numero de responsable: 1
+Responsable asignado: Diego Bedel
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: 2
+--- Cambiar estado ---
+Numero de solicitud: 1
+Estado actual: en_proceso
+Nuevo estado (en_proceso/resuelta/rechazada): resuelta
+Estado actualizado a resuelta
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: 4
+--- Buscar solicitudes ---
+1. Por estado
+2. Por legajo
+3. Todas
+Opcion: 3
+#1 | 1001 | certificado | media | resuelta | vence 2026-11-11
+#2 | 1002 | reclamo | alta | pendiente | vence 2026-11-13
+Encontradas: 2
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: 5
+--- Reporte general ---
+Total: 2
+Pendientes: 1
+En proceso: 0
+Resueltas: 1
+Rechazadas: 0
+Vencidas: 0
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: 0
+Hasta luego
