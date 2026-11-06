@@ -1,0 +1,20 @@
+Defectos de la version inicial, reproducidos sobre el tag estado-inicial.
+
+=== DEF-1: un numero de solicitud no numerico termina el programa ===
+  File "main.py", line 89, in cambiar_estado
+    n = int(input("Numero de solicitud: "))
+ValueError: invalid literal for int() with base 10: 'abc'
+
+=== DEF-2: un datos.json danado se reemplaza sin avisar ===
+Contenido antes: {"solicitudes": [{"id": 1
+Solicitud 1 registrada para Ana Prueba
+Solicitudes despues: [1] (archivo sobrescrito, sin ningun aviso)
+
+=== DEF-3: asignar responsable reabre una solicitud ya resuelta ===
+Responsable asignado: Diego Bedel
+Estado actualizado a resuelta
+Responsable asignado: Diego Bedel
+Estado final guardado: en_proceso
+
+=== DEF-4: una solicitud que vence hoy ya figura como vencida ===
+Vencidas: 1

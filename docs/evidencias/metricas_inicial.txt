@@ -1,0 +1,55 @@
+### radon cc (complejidad ciclomatica)
+main.py
+    F 87:0 cambiar_estado - C (15)
+    F 45:0 registrar - C (14)
+    F 121:0 asignar - B (10)
+    F 156:0 buscar - B (9)
+    F 185:0 reporte - B (8)
+    F 221:0 main - B (8)
+    F 12:0 cargar - A (2)
+    F 214:0 calcular_total_viejo - A (2)
+    F 34:0 guardar - A (1)
+    F 40:0 crear_solicitud - A (1)
+
+10 blocks (classes, functions, methods) analyzed.
+Average complexity: B (7.0)
+
+### radon mi (indice de mantenibilidad)
+main.py - A (27.92)
+
+### radon raw
+main.py
+    LOC: 250
+    LLOC: 215
+    SLOC: 219
+    Comments: 8
+    Single comments: 8
+    Multi: 0
+    Blank: 23
+    - Comment Stats
+        (C % L): 3%
+        (C % S): 4%
+        (C + M % L): 3%
+
+### ruff (E,F,W,C90,N,PLR,BLE)
+main.py:21:5: E722 Do not use bare `except`
+main.py:36:101: E501 Line too long (114 > 100)
+main.py:40:5: PLR0913 Too many arguments in function definition (9 > 5)
+main.py:40:5: PLR0917 Too many positional arguments (9 > 5)
+main.py:41:101: E501 Line too long (105 > 100)
+main.py:52:15: E711 Comparison to `None` should be `cond is None`
+main.py:56:8: PLR1714 Consider merging multiple comparisons.
+main.py:60:8: PLR1714 Consider merging multiple comparisons: `p not in {"alta", "media", "baja"}`.
+main.py:64:20: PLR2004 Magic value used in comparison, consider replacing `10` with a constant variable
+main.py:94:13: E711 Comparison to `None` should be `cond is None`
+main.py:99:8: PLR1714 Consider merging multiple comparisons.
+main.py:103:12: PLR1714 Consider merging multiple comparisons: `nuevo not in {"en_proceso", "rechazada"}`.
+main.py:107:12: PLR1714 Consider merging multiple comparisons: `nuevo not in {"resuelta", "rechazada"}`.
+main.py:113:52: E711 Comparison to `None` should be `cond is None`
+main.py:128:13: E711 Comparison to `None` should be `cond is None`
+main.py:138:13: E711 Comparison to `None` should be `cond is None`
+main.py:167:101: E501 Line too long (157 > 100)
+main.py:173:101: E501 Line too long (157 > 100)
+main.py:177:101: E501 Line too long (153 > 100)
+Found 19 errors.
+10 unsafe fixes available with `--fix --unsafe-fixes`.
