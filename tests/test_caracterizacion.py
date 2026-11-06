@@ -8,26 +8,27 @@ regenerarlos después de refactorizar: compararían el código consigo mismo.
 import json
 import os
 import re
-import shutil
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[1]
-ESCENARIOS = RAIZ / "tests" / "escenarios"
-DORADOS = RAIZ / "tests" / "dorados"
+ESCENARIO = RAIZ / "tests" / "escenarios" / "principal.txt"
+DORADO_CONSOLA = RAIZ / "tests" / "dorados" / "principal_consola.txt"
+DORADO_DATOS = RAIZ / "tests" / "dorados" / "principal_datos.json"
 
 
 def normalizar(texto):
+    """Reemplaza las fechas, que dependen del día en que se corre la prueba."""
     return re.sub(r"\d{4}-\d{2}-\d{2}", "<FECHA>", texto)
 
 
-def ejecutar(nombre, carpeta):
+def ejecutar(carpeta):
     """Corre el programa como lo usa una persona y devuelve la consola y el JSON."""
     resultado = subprocess.run(
         [sys.executable, str(RAIZ / "main.py")],
-        input=(ESCENARIOS / f"{nombre}.txt").read_text(encoding="utf-8"),
+        input=ESCENARIO.read_text(encoding="utf-8"),
         capture_output=True,
         text=True,
         encoding="utf-8",
@@ -37,33 +38,17 @@ def ejecutar(nombre, carpeta):
         env={**os.environ, "PYTHONUTF8": "1"},
     )
     datos = json.loads((Path(carpeta) / "datos.json").read_text(encoding="utf-8"))
-    return normalizar(resultado.stdout), normalizar(
-        json.dumps(datos, indent=2, sort_keys=True)
-    ) + "\n"
-
-
-def correr_todo(carpeta_base):
-    """Principal y reinicio comparten carpeta: el segundo comprueba que los datos persisten."""
-    resultados = {}
-    compartida = Path(carpeta_base) / "compartida"
-    compartida.mkdir()
-    for nombre in ("principal", "reinicio"):
-        resultados[nombre] = ejecutar(nombre, compartida)
-    vencidas = Path(carpeta_base) / "vencidas"
-    vencidas.mkdir()
-    shutil.copy(ESCENARIOS / "vencidas_datos.json", vencidas / "datos.json")
-    resultados["vencidas"] = ejecutar("vencidas", vencidas)
-    return resultados
+    return normalizar(resultado.stdout), normalizar(json.dumps(datos, indent=2, sort_keys=True)) + "\n"
 
 
 def test_el_comportamiento_externo_no_cambia(tmp_path):
-    for nombre, (consola, datos) in correr_todo(tmp_path).items():
-        assert consola == (DORADOS / f"{nombre}_consola.txt").read_text(encoding="utf-8")
-        assert datos == (DORADOS / f"{nombre}_datos.json").read_text(encoding="utf-8")
+    consola, datos = ejecutar(tmp_path)
+    assert consola == DORADO_CONSOLA.read_text(encoding="utf-8")
+    assert datos == DORADO_DATOS.read_text(encoding="utf-8")
 
 
 if __name__ == "__main__":
     with tempfile.TemporaryDirectory() as temporal:
-        for nombre, (consola, datos) in correr_todo(temporal).items():
-            (DORADOS / f"{nombre}_consola.txt").write_text(consola, encoding="utf-8")
-            (DORADOS / f"{nombre}_datos.json").write_text(datos, encoding="utf-8")
+        consola, datos = ejecutar(temporal)
+    DORADO_CONSOLA.write_text(consola, encoding="utf-8")
+    DORADO_DATOS.write_text(datos, encoding="utf-8")

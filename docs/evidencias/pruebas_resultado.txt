@@ -1,6 +1,6 @@
 ============================= test session starts ==============================
 platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0
-rootdir: gestion-solicitudes
+rootdir: tpi-ms2-solicitudes
 configfile: pytest.ini
 testpaths: tests
 plugins: anyio-4.13.0
@@ -42,4 +42,4 @@ tests/test_sistema.py::test_cualquier_repositorio_sirve_al_servicio[json] PASSED
 tests/test_sistema.py::test_los_datos_sobreviven_a_un_reinicio PASSED    [ 97%]
 tests/test_sistema.py::test_la_consola_informa_el_error_y_el_menu_sigue PASSED [100%]
 
-============================== 35 passed in 0.15s ==============================
+============================== 35 passed in 0.09s ==============================

@@ -4,7 +4,7 @@
 
 La versión inicial no admitía pruebas unitarias porque importar `main.py` ejecutaba el programa. La verificación siguió este orden:
 
-1. **Caracterización antes de tocar nada.** Se ejecutaron escenarios por consola sobre `estado-inicial` y se guardaron la salida y el JSON como archivos dorados. Las pruebas comparan el texto completo y solo normalizan las fechas.
+1. **Caracterización antes de tocar nada.** Se ejecutaron escenarios por consola sobre `estado-inicial` y se guardaron la salida y el JSON como archivos dorados. Las pruebas comparan el texto completo y solo normalizan las fechas. Durante el refactoring se usaron 3 escenarios; al terminar se dejó solo el principal para simplificar, porque el reinicio y las vencidas ya los cubren pruebas unitarias.
 2. **Refactoring con la red activa.** La prueba de caracterización pasa en cada commit del refactoring.
 3. **Pruebas unitarias después.** El nuevo diseño permite probar reglas con repositorio en memoria y fecha fija.
 4. **Defectos con prueba previa.** Primero una prueba que falla; después, la corrección.
@@ -13,7 +13,7 @@ La versión inicial no admitía pruebas unitarias porque importar `main.py` ejec
 
 | Archivo | Qué verifica | Tipo |
 |---|---|---|
-| `tests/test_caracterizacion.py` | Consola y JSON contra la versión inicial, en 3 escenarios | Caracterización |
+| `tests/test_caracterizacion.py` | Consola y JSON contra la versión inicial, en un escenario completo | Caracterización |
 | `tests/test_sistema.py` | Plazos, prioridades, transiciones, áreas, reporte, persistencia y consola | Unitaria e integración |
 | `tests/test_correcciones.py` | Defectos corregidos | Regresión |
 
@@ -63,4 +63,4 @@ Hasta `etapa-refactoring` la salida no cambia. Los únicos cambios visibles est�
 ## Límites
 
 - Se ejecutó solo en Linux con Python 3.14.
-- Los archivos dorados cubren los escenarios escritos, no todas las combinaciones posibles.
+- Los archivos dorados cubren el escenario escrito, no todas las combinaciones posibles.

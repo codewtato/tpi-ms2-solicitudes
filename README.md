@@ -20,8 +20,8 @@ Python 3.10 o superior, solo con la biblioteca estándar. Se probó con Python 3
 ## Instalación y uso
 
 ```bash
-git clone <URL-DEL-REPOSITORIO>
-cd gestion-solicitudes
+git clone https://github.com/codewtato/tpi-ms2-solicitudes.git
+cd tpi-ms2-solicitudes
 python main.py
 ```
 
@@ -45,7 +45,7 @@ gestion_solicitudes/
   servicio.py            casos de uso y reporte
   modelos.py             entidades y reglas de negocio
   repositorio.py         persistencia
-tests/                   pruebas, escenarios y archivos dorados
+tests/                   pruebas, escenario y archivos dorados
 docs/                    diagnóstico, decisiones, pruebas, code review y evidencias
 ```
 

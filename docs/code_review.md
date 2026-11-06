@@ -13,7 +13,7 @@ Revisión técnica de la versión refactorizada, hecha sobre el commit del tag `
 | 5 | Lo interno no depende de detalles concretos (DIP) | Cumple | El servicio recibe repositorio y reloj |
 | 6 | Nombres expresivos | Cumple | `ruff` N solo observa CR-08 |
 | 7 | Funciones cortas, con complejidad de 10 o menos | Cumple | Máximo: CC 9 antes de CR-04 |
-| 8 | Sin código muerto | Cumple | `ruff` F |
+| 8 | Sin código muerto | Cumple | Revisión manual y `ruff` F |
 | 9 | Los errores se informan sin ocultar fallas | **Observado** | CR-03, CR-06 |
 | 10 | Las entradas se validan | **Observado** | CR-02 |
 | 11 | Los datos se identifican sin ambigüedad | **Observado** | CR-01 |
@@ -53,12 +53,3 @@ Evidencia: [`review_antes.txt`](evidencias/review_antes.txt) y [`review_despues.
 | Análisis estático | Sin errores, salvo excepciones justificadas | 1 hallazgo, rechazado en CR-08 | Sí |
 | Hallazgos de severidad alta | Ninguno abierto | Ninguno | Sí |
 | Pendientes | Registrados y justificados | CR-06 | Sí |
-
-## Validación del equipo
-
-Esta sección la completa cada integrante después de leer el código y correr las pruebas.
-
-| Integrante | Fecha | Revisó | Observaciones propias | ¿Aprueba? |
-|---|---|---|---|---|
-| Matías D'Agostino | | | | |
-| Facundo Cufré | | | | |
