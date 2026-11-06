@@ -1,6 +1,9 @@
 # sistema de solicitudes academicas
 import json
-from datetime import datetime, timedelta
+from dataclasses import asdict
+from datetime import date, timedelta
+
+from gestion_solicitudes.modelos import Estado, Estudiante, Prioridad, Responsable, Solicitud, Tipo
 
 solicitudes = []
 estudiantes = []
@@ -9,73 +12,92 @@ ARCHIVO_DATOS = "datos.json"
 LARGO_MINIMO_DESCRIPCION = 10
 
 
+def solicitud_desde_dict(datos):
+    return Solicitud(
+        datos["id"], datos["legajo"], Tipo(datos["tipo"]), Prioridad(datos["prioridad"]), datos["descripcion"],
+        date.fromisoformat(datos["fecha"]), date.fromisoformat(datos["vence"]), Estado(datos["estado"]),
+        datos["responsable"],
+    )
+
+
+def solicitud_a_dict(solicitud):
+    return {
+        **asdict(solicitud),
+        "tipo": solicitud.tipo.value,
+        "prioridad": solicitud.prioridad.value,
+        "fecha": solicitud.fecha.isoformat(),
+        "vence": solicitud.vence.isoformat(),
+        "estado": solicitud.estado.value,
+    }
+
+
 def cargar():
     global solicitudes, estudiantes, responsables
     try:
         f = open(ARCHIVO_DATOS)
         d = json.load(f)
         f.close()
-        solicitudes = d["solicitudes"]
-        estudiantes = d["estudiantes"]
-        responsables = d["responsables"]
+        solicitudes = [solicitud_desde_dict(s) for s in d["solicitudes"]]
+        estudiantes = [Estudiante(**e) for e in d["estudiantes"]]
+        responsables = [Responsable(**r) for r in d["responsables"]]
     except:
         # si no se puede leer arrancamos con los datos de ejemplo
-        estudiantes = [
-            {"legajo": "1001", "nombre": "Ana Prueba"},
-            {"legajo": "1002", "nombre": "Bruno Ejemplo"},
-        ]
-        responsables = [
-            {"id": 1, "nombre": "Diego Bedel", "area": "Bedelia"},
-            {"id": 2, "nombre": "Elena Secretaria", "area": "Secretaria"},
-        ]
+        estudiantes = [Estudiante("1001", "Ana Prueba"), Estudiante("1002", "Bruno Ejemplo")]
+        responsables = [Responsable(1, "Diego Bedel", "Bedelia"), Responsable(2, "Elena Secretaria", "Secretaria")]
         solicitudes = []
 
 
 def guardar():
     f = open(ARCHIVO_DATOS, "w")
-    json.dump({"solicitudes": solicitudes, "estudiantes": estudiantes, "responsables": responsables}, f, indent=2)
+    json.dump(
+        {
+            "solicitudes": [solicitud_a_dict(s) for s in solicitudes],
+            "estudiantes": [asdict(e) for e in estudiantes],
+            "responsables": [asdict(r) for r in responsables],
+        },
+        f,
+        indent=2,
+    )
     f.close()
 
 
 def crear_solicitud(id, legajo, tipo, prioridad, descripcion, fecha, vence, estado, responsable):
-    return {"id": id, "legajo": legajo, "tipo": tipo, "prioridad": prioridad, "descripcion": descripcion,
-            "fecha": fecha, "vence": vence, "estado": estado, "responsable": responsable}
+    return Solicitud(id, legajo, tipo, prioridad, descripcion, fecha, vence, estado, responsable)
 
 
-def buscar_por(lista, clave, valor):
+def buscar_por(lista, atributo, valor):
     for elemento in lista:
-        if elemento[clave] == valor:
+        if getattr(elemento, atributo) == valor:
             return elemento
     return None
 
 
 def calcular_plazo(tipo):
-    if tipo == "certificado":
+    if tipo is Tipo.CERTIFICADO:
         return 5
-    if tipo == "equivalencia":
+    if tipo is Tipo.EQUIVALENCIA:
         return 30
     return 7
 
 
 def calcular_area(tipo):
-    return "Bedelia" if tipo == "certificado" else "Secretaria"
+    return "Bedelia" if tipo is Tipo.CERTIFICADO else "Secretaria"
 
 
 def esta_abierta(solicitud):
-    return solicitud["estado"] in ("pendiente", "en_proceso")
+    return solicitud.estado in (Estado.PENDIENTE, Estado.EN_PROCESO)
 
 
 def transicion_permitida(actual, nuevo):
-    if actual == "pendiente":
-        return nuevo in ("en_proceso", "rechazada")
-    return nuevo in ("resuelta", "rechazada")
+    if actual is Estado.PENDIENTE:
+        return nuevo in (Estado.EN_PROCESO, Estado.RECHAZADA)
+    return nuevo in (Estado.RESUELTA, Estado.RECHAZADA)
 
 
 def imprimir_filas(lista):
     for s in lista:
-        print("#" + str(s["id"]) + " | " + s["legajo"] + " | " + s["tipo"] + " | " + s["prioridad"]
-              + " | " + s["estado"] + " | vence " + s["vence"])
-    print("Encontradas: " + str(len(lista)))
+        print(f"#{s.id} | {s.legajo} | {s.tipo.value} | {s.prioridad.value} | {s.estado.value} | vence {s.vence}")
+    print(f"Encontradas: {len(lista)}")
 
 
 def pedir_solicitud():
@@ -86,12 +108,14 @@ def pedir_solicitud():
 
 
 def pedir_datos_nueva_solicitud():
-    tipo = input("Tipo (certificado/equivalencia/reclamo): ")
-    if tipo not in ("certificado", "equivalencia", "reclamo"):
+    try:
+        tipo = Tipo(input("Tipo (certificado/equivalencia/reclamo): "))
+    except ValueError:
         print("Error: tipo invalido")
         return None
-    prioridad = input("Prioridad (alta/media/baja): ")
-    if prioridad not in ("alta", "media", "baja"):
+    try:
+        prioridad = Prioridad(input("Prioridad (alta/media/baja): "))
+    except ValueError:
         print("Error: prioridad invalida")
         return None
     descripcion = input("Descripcion: ")
@@ -112,16 +136,15 @@ def registrar():
     if datos is None:
         return
     tipo, prioridad, descripcion = datos
-    if tipo == "reclamo":  # los reclamos siempre son prioridad alta
-        prioridad = "alta"
-    hoy = datetime.now()
-    vence = hoy + timedelta(days=calcular_plazo(tipo))
-    solicitud = crear_solicitud(len(solicitudes) + 1, legajo, tipo, prioridad, descripcion,
-                                hoy.strftime("%Y-%m-%d"), vence.strftime("%Y-%m-%d"), "pendiente", None)
+    if tipo is Tipo.RECLAMO:  # los reclamos siempre son prioridad alta
+        prioridad = Prioridad.ALTA
+    hoy = date.today()
+    solicitud = crear_solicitud(len(solicitudes) + 1, legajo, tipo, prioridad, descripcion, hoy,
+                                hoy + timedelta(days=calcular_plazo(tipo)), Estado.PENDIENTE, None)
     solicitudes.append(solicitud)
     guardar()
-    print("Solicitud " + str(solicitud["id"]) + " registrada para " + estudiante["nombre"])
-    print("Prioridad: " + solicitud["prioridad"] + " - Vence: " + solicitud["vence"])
+    print(f"Solicitud {solicitud.id} registrada para {estudiante.nombre}")
+    print(f"Prioridad: {solicitud.prioridad.value} - Vence: {solicitud.vence}")
 
 
 def cambiar_estado():
@@ -129,20 +152,22 @@ def cambiar_estado():
     solicitud = pedir_solicitud()
     if solicitud is None:
         return
-    print("Estado actual: " + solicitud["estado"])
-    nuevo = input("Nuevo estado (en_proceso/resuelta/rechazada): ")
-    if nuevo not in ("en_proceso", "resuelta", "rechazada"):
+    print(f"Estado actual: {solicitud.estado.value}")
+    valor = input("Nuevo estado (en_proceso/resuelta/rechazada): ")
+    if valor not in ("en_proceso", "resuelta", "rechazada"):
         print("Error: estado invalido")
-    elif not esta_abierta(solicitud):
+        return
+    nuevo = Estado(valor)
+    if not esta_abierta(solicitud):
         print("Error: la solicitud ya esta cerrada")
-    elif not transicion_permitida(solicitud["estado"], nuevo):
-        print("Error: no se puede pasar de " + solicitud["estado"] + " a " + nuevo)
-    elif nuevo == "resuelta" and solicitud["responsable"] is None:
+    elif not transicion_permitida(solicitud.estado, nuevo):
+        print(f"Error: no se puede pasar de {solicitud.estado.value} a {nuevo.value}")
+    elif nuevo is Estado.RESUELTA and solicitud.responsable is None:
         print("Error: no se puede resolver sin responsable")
     else:
-        solicitud["estado"] = nuevo
+        solicitud.estado = nuevo
         guardar()
-        print("Estado actualizado a " + nuevo)
+        print(f"Estado actualizado a {nuevo.value}")
 
 
 def asignar():
@@ -151,18 +176,18 @@ def asignar():
     if solicitud is None:
         return
     for responsable in responsables:
-        print(str(responsable["id"]) + " - " + responsable["nombre"] + " (" + responsable["area"] + ")")
+        print(f"{responsable.id} - {responsable.nombre} ({responsable.area})")
     responsable = buscar_por(responsables, "id", int(input("Numero de responsable: ")))
-    area = calcular_area(solicitud["tipo"])
+    area = calcular_area(solicitud.tipo)
     if responsable is None:
         print("Error: no existe el responsable")
-    elif responsable["area"] != area:
-        print("Error: ese tipo lo atiende " + area)
+    elif responsable.area != area:
+        print(f"Error: ese tipo lo atiende {area}")
     else:
-        solicitud["responsable"] = responsable["id"]
-        solicitud["estado"] = "en_proceso"
+        solicitud.responsable = responsable.id
+        solicitud.estado = Estado.EN_PROCESO
         guardar()
-        print("Responsable asignado: " + responsable["nombre"])
+        print(f"Responsable asignado: {responsable.nombre}")
 
 
 def buscar():
@@ -173,10 +198,10 @@ def buscar():
     opcion = input("Opcion: ")
     if opcion == "1":
         valor = input("Estado: ")
-        imprimir_filas([s for s in solicitudes if s["estado"] == valor])
+        imprimir_filas([s for s in solicitudes if s.estado.value == valor])
     elif opcion == "2":
         valor = input("Legajo: ")
-        imprimir_filas([s for s in solicitudes if s["legajo"] == valor])
+        imprimir_filas([s for s in solicitudes if s.legajo == valor])
     elif opcion == "3":
         imprimir_filas(solicitudes)
     else:
@@ -184,20 +209,19 @@ def buscar():
 
 
 def contar_estado(estado):
-    return len([s for s in solicitudes if s["estado"] == estado])
+    return len([s for s in solicitudes if s.estado is estado])
 
 
 def reporte():
     print("--- Reporte general ---")
-    ahora = datetime.now()
-    vencidas = [s for s in solicitudes
-                if esta_abierta(s) and datetime.strptime(s["vence"], "%Y-%m-%d") < ahora]
-    print("Total: " + str(len(solicitudes)))
-    print("Pendientes: " + str(contar_estado("pendiente")))
-    print("En proceso: " + str(contar_estado("en_proceso")))
-    print("Resueltas: " + str(contar_estado("resuelta")))
-    print("Rechazadas: " + str(contar_estado("rechazada")))
-    print("Vencidas: " + str(len(vencidas)))
+    hoy = date.today()
+    vencidas = [s for s in solicitudes if esta_abierta(s) and s.vence <= hoy]
+    print(f"Total: {len(solicitudes)}")
+    print(f"Pendientes: {contar_estado(Estado.PENDIENTE)}")
+    print(f"En proceso: {contar_estado(Estado.EN_PROCESO)}")
+    print(f"Resueltas: {contar_estado(Estado.RESUELTA)}")
+    print(f"Rechazadas: {contar_estado(Estado.RECHAZADA)}")
+    print(f"Vencidas: {len(vencidas)}")
 
 
 def main():
