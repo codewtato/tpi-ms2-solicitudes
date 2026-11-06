@@ -5,7 +5,7 @@ from dataclasses import asdict
 from datetime import date
 from pathlib import Path
 
-from gestion_solicitudes.modelos import Estado, Estudiante, Prioridad, Responsable, Solicitud, Tipo
+from gestion_solicitudes.modelos import ErrorSolicitud, Estado, Estudiante, Prioridad, Responsable, Solicitud, Tipo
 
 
 class RepositorioJson:
@@ -19,8 +19,11 @@ class RepositorioJson:
             "estudiantes": [asdict(e) for e in self.estudiantes],
             "responsables": [asdict(r) for r in self.responsables],
         }
-        with self._ruta.open("w", encoding="utf-8") as archivo:
+        # Se escribe aparte y se reemplaza al final: un corte no deja el archivo a medias.
+        temporal = self._ruta.with_name(self._ruta.name + ".tmp")
+        with temporal.open("w", encoding="utf-8") as archivo:
             json.dump(datos, archivo, indent=2)
+        temporal.replace(self._ruta)
 
     def _leer(self):
         try:
@@ -31,8 +34,10 @@ class RepositorioJson:
                 [Estudiante(**e) for e in datos["estudiantes"]],
                 [Responsable(**r) for r in datos["responsables"]],
             )
-        except Exception:
+        except FileNotFoundError:
             return [], _estudiantes_de_ejemplo(), _responsables_de_ejemplo()
+        except (ValueError, KeyError, TypeError) as error:
+            raise ErrorSolicitud(f"no se puede interpretar {self._ruta}: revise o restaure el archivo") from error
 
 
 def _estudiantes_de_ejemplo():

@@ -101,7 +101,7 @@ class Solicitud:
         return self.estado in TRANSICIONES
 
     def esta_vencida(self, hoy):
-        return self.esta_abierta and self.vence <= hoy
+        return self.esta_abierta and self.vence < hoy
 
     def cambiar_estado(self, nuevo):
         if not self.esta_abierta:
@@ -113,6 +113,8 @@ class Solicitud:
         self.estado = nuevo
 
     def asignar(self, responsable):
+        if not self.esta_abierta:
+            raise ErrorSolicitud("la solicitud ya esta cerrada")
         area = REGLAS[self.tipo].area
         if responsable.area != area:
             raise ErrorSolicitud(f"ese tipo lo atiende {area}")

@@ -1,0 +1,13 @@
+Pruebas de los defectos ANTES de corregirlos (se espera que fallen):
+
+FFFFFFFF                                                                 [100%]
+=========================== short test summary info ============================
+FAILED tests/test_correcciones.py::test_def1_un_numero_invalido_no_cierra_el_programa[entradas0]
+FAILED tests/test_correcciones.py::test_def1_un_numero_invalido_no_cierra_el_programa[entradas1]
+FAILED tests/test_correcciones.py::test_def1_un_numero_invalido_no_cierra_el_programa[entradas2]
+FAILED tests/test_correcciones.py::test_def2_un_archivo_danado_se_informa_y_no_se_toca[{"solicitudes": [{"id": 1]
+FAILED tests/test_correcciones.py::test_def2_un_archivo_danado_se_informa_y_no_se_toca[[]]
+FAILED tests/test_correcciones.py::test_def2_un_archivo_danado_se_informa_y_no_se_toca[{"solicitudes": [{"id": 1}], "estudiantes": [], "responsables": []}]
+FAILED tests/test_correcciones.py::test_def3_asignar_no_reabre_una_solicitud_cerrada
+FAILED tests/test_correcciones.py::test_def4_lo_que_vence_hoy_todavia_no_esta_vencido
+8 failed in 0.02s

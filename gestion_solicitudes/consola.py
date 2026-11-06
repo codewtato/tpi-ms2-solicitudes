@@ -45,7 +45,7 @@ def registrar(servicio):
 
 def cambiar_estado(servicio):
     print("--- Cambiar estado ---")
-    numero = int(input("Numero de solicitud: "))
+    numero = pedir_numero("Numero de solicitud: ")
     print(f"Estado actual: {servicio.obtener_solicitud(numero).estado.value}")
     nuevo = pedir_opcion("Nuevo estado", ESTADOS_DESTINO, "estado invalido")
     servicio.cambiar_estado(numero, nuevo)
@@ -54,11 +54,11 @@ def cambiar_estado(servicio):
 
 def asignar(servicio):
     print("--- Asignar responsable ---")
-    numero = int(input("Numero de solicitud: "))
+    numero = pedir_numero("Numero de solicitud: ")
     servicio.obtener_solicitud(numero)
     for responsable in servicio.responsables():
         print(f"{responsable.id} - {responsable.nombre} ({responsable.area})")
-    responsable = servicio.asignar(numero, int(input("Numero de responsable: ")))
+    responsable = servicio.asignar(numero, pedir_numero("Numero de responsable: "))
     print(f"Responsable asignado: {responsable.nombre}")
 
 
@@ -88,6 +88,13 @@ def reporte(servicio):
     print("--- Reporte general ---")
     for linea in servicio.reporte_general():
         print(linea)
+
+
+def pedir_numero(pregunta):
+    try:
+        return int(input(pregunta))
+    except ValueError:
+        raise ErrorSolicitud("debe ingresar un numero") from None
 
 
 def pedir_opcion(pregunta, opciones, error):
