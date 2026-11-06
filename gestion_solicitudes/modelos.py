@@ -37,6 +37,16 @@ class Responsable:
     area: str
 
 
+@dataclass(frozen=True)
+class NuevaSolicitud:
+    """Lo que aporta quien registra una solicitud; el resto lo calcula el sistema."""
+
+    legajo: str
+    tipo: Tipo
+    prioridad: Prioridad
+    descripcion: str
+
+
 @dataclass
 class Solicitud:
     id: int

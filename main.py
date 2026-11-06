@@ -3,7 +3,7 @@ import json
 from dataclasses import asdict
 from datetime import date, timedelta
 
-from gestion_solicitudes.modelos import Estado, Estudiante, Prioridad, Responsable, Solicitud, Tipo
+from gestion_solicitudes.modelos import Estado, Estudiante, NuevaSolicitud, Prioridad, Responsable, Solicitud, Tipo
 
 solicitudes = []
 estudiantes = []
@@ -61,8 +61,11 @@ def guardar():
     f.close()
 
 
-def crear_solicitud(id, legajo, tipo, prioridad, descripcion, fecha, vence, estado, responsable):
-    return Solicitud(id, legajo, tipo, prioridad, descripcion, fecha, vence, estado, responsable)
+def crear_solicitud(numero, nueva, hoy):
+    # los reclamos siempre son prioridad alta
+    prioridad = Prioridad.ALTA if nueva.tipo is Tipo.RECLAMO else nueva.prioridad
+    vence = hoy + timedelta(days=calcular_plazo(nueva.tipo))
+    return Solicitud(numero, nueva.legajo, nueva.tipo, prioridad, nueva.descripcion, hoy, vence)
 
 
 def buscar_por(lista, atributo, valor):
@@ -107,7 +110,7 @@ def pedir_solicitud():
     return solicitud
 
 
-def pedir_datos_nueva_solicitud():
+def pedir_nueva_solicitud(legajo):
     try:
         tipo = Tipo(input("Tipo (certificado/equivalencia/reclamo): "))
     except ValueError:
@@ -122,7 +125,7 @@ def pedir_datos_nueva_solicitud():
     if len(descripcion) < LARGO_MINIMO_DESCRIPCION:
         print("Error: la descripcion debe tener al menos 10 caracteres")
         return None
-    return tipo, prioridad, descripcion
+    return NuevaSolicitud(legajo, tipo, prioridad, descripcion)
 
 
 def registrar():
@@ -132,15 +135,10 @@ def registrar():
     if estudiante is None:
         print("Error: no existe el estudiante")
         return
-    datos = pedir_datos_nueva_solicitud()
-    if datos is None:
+    nueva = pedir_nueva_solicitud(legajo)
+    if nueva is None:
         return
-    tipo, prioridad, descripcion = datos
-    if tipo is Tipo.RECLAMO:  # los reclamos siempre son prioridad alta
-        prioridad = Prioridad.ALTA
-    hoy = date.today()
-    solicitud = crear_solicitud(len(solicitudes) + 1, legajo, tipo, prioridad, descripcion, hoy,
-                                hoy + timedelta(days=calcular_plazo(tipo)), Estado.PENDIENTE, None)
+    solicitud = crear_solicitud(len(solicitudes) + 1, nueva, date.today())
     solicitudes.append(solicitud)
     guardar()
     print(f"Solicitud {solicitud.id} registrada para {estudiante.nombre}")
