@@ -5,7 +5,15 @@ from dataclasses import asdict
 from datetime import date
 from pathlib import Path
 
-from gestion_solicitudes.modelos import ErrorSolicitud, Estado, Estudiante, Prioridad, Responsable, Solicitud, Tipo
+from gestion_solicitudes.modelos import (
+    ErrorSolicitud,
+    Estado,
+    Estudiante,
+    Prioridad,
+    Responsable,
+    Solicitud,
+    Tipo,
+)
 
 
 class RepositorioJson:
@@ -37,7 +45,9 @@ class RepositorioJson:
         except FileNotFoundError:
             return [], _estudiantes_de_ejemplo(), _responsables_de_ejemplo()
         except (ValueError, KeyError, TypeError) as error:
-            raise ErrorSolicitud(f"no se puede interpretar {self._ruta}: revise o restaure el archivo") from error
+            raise ErrorSolicitud(
+                f"no se puede interpretar {self._ruta}: revise o restaure el archivo"
+            ) from error
 
 
 def _estudiantes_de_ejemplo():
@@ -45,13 +55,22 @@ def _estudiantes_de_ejemplo():
 
 
 def _responsables_de_ejemplo():
-    return [Responsable(1, "Diego Bedel", "Bedelia"), Responsable(2, "Elena Secretaria", "Secretaria")]
+    return [
+        Responsable(1, "Diego Bedel", "Bedelia"),
+        Responsable(2, "Elena Secretaria", "Secretaria"),
+    ]
 
 
 def _solicitud_desde_dict(datos):
     return Solicitud(
-        datos["id"], datos["legajo"], Tipo(datos["tipo"]), Prioridad(datos["prioridad"]), datos["descripcion"],
-        date.fromisoformat(datos["fecha"]), date.fromisoformat(datos["vence"]), Estado(datos["estado"]),
+        datos["id"],
+        datos["legajo"],
+        Tipo(datos["tipo"]),
+        Prioridad(datos["prioridad"]),
+        datos["descripcion"],
+        date.fromisoformat(datos["fecha"]),
+        date.fromisoformat(datos["vence"]),
+        Estado(datos["estado"]),
         datos["responsable"],
     )
 

@@ -1,0 +1,9 @@
+Las mismas pruebas DESPUES de corregir:
+
+test_cr01_el_numero_no_se_repite_si_hay_huecos PASSED [ 16%]
+test_cr02_una_descripcion_de_espacios_se_rechaza PASSED [ 33%]
+test_cr03_cerrar_la_entrada_termina_sin_traceback[EOFError] PASSED [ 50%]
+test_cr03_cerrar_la_entrada_termina_sin_traceback[KeyboardInterrupt] PASSED [ 66%]
+test_cr04_la_busqueda_vive_en_el_servicio PASSED [ 83%]
+test_cr07_todo_tipo_tiene_su_regla PASSED    [100%]
+======================= 6 passed, 8 deselected in 0.03s ========================

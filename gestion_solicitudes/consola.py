@@ -1,6 +1,12 @@
 """Interfaz por consola: el único módulo que usa input y print."""
 
-from gestion_solicitudes.modelos import ErrorSolicitud, Estado, NuevaSolicitud, Prioridad, Tipo
+from gestion_solicitudes.modelos import (
+    ErrorSolicitud,
+    Estado,
+    NuevaSolicitud,
+    Prioridad,
+    Tipo,
+)
 
 ESTADOS_DESTINO = (Estado.EN_PROCESO, Estado.RESUELTA, Estado.RECHAZADA)
 
@@ -69,18 +75,19 @@ def buscar(servicio):
     print("3. Todas")
     opcion = input("Opcion: ")
     if opcion == "1":
-        valor = input("Estado: ")
-        encontradas = [s for s in servicio.solicitudes() if s.estado.value == valor]
+        encontradas = servicio.buscar(estado=input("Estado: "))
     elif opcion == "2":
-        valor = input("Legajo: ")
-        encontradas = [s for s in servicio.solicitudes() if s.legajo == valor]
+        encontradas = servicio.buscar(legajo=input("Legajo: "))
     elif opcion == "3":
-        encontradas = servicio.solicitudes()
+        encontradas = servicio.buscar()
     else:
         print("Opcion invalida")
         return
     for s in encontradas:
-        print(f"#{s.id} | {s.legajo} | {s.tipo.value} | {s.prioridad.value} | {s.estado.value} | vence {s.vence}")
+        print(
+            f"#{s.id} | {s.legajo} | {s.tipo.value} | {s.prioridad.value}"
+            f" | {s.estado.value} | vence {s.vence}"
+        )
     print(f"Encontradas: {len(encontradas)}")
 
 

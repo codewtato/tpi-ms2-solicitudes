@@ -28,11 +28,18 @@ def ejecutar(nombre, carpeta):
     resultado = subprocess.run(
         [sys.executable, str(RAIZ / "main.py")],
         input=(ESCENARIOS / f"{nombre}.txt").read_text(encoding="utf-8"),
-        capture_output=True, text=True, encoding="utf-8", cwd=carpeta, timeout=30, check=True,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        cwd=carpeta,
+        timeout=30,
+        check=True,
         env={**os.environ, "PYTHONUTF8": "1"},
     )
     datos = json.loads((Path(carpeta) / "datos.json").read_text(encoding="utf-8"))
-    return normalizar(resultado.stdout), normalizar(json.dumps(datos, indent=2, sort_keys=True)) + "\n"
+    return normalizar(resultado.stdout), normalizar(
+        json.dumps(datos, indent=2, sort_keys=True)
+    ) + "\n"
 
 
 def correr_todo(carpeta_base):

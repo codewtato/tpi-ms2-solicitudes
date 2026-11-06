@@ -16,6 +16,8 @@ def main():
     except ErrorSolicitud as error:
         print(f"Error: {error}")
         return 1
+    except (EOFError, KeyboardInterrupt):
+        print("\nHasta luego")
     return 0
 
 

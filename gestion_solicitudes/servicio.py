@@ -13,7 +13,8 @@ class ServicioSolicitudes:
     def registrar(self, nueva):
         self.obtener_estudiante(nueva.legajo)
         solicitudes = self._repositorio.solicitudes
-        solicitud = Solicitud.crear(len(solicitudes) + 1, nueva, self._hoy())
+        numero = max((s.id for s in solicitudes), default=0) + 1
+        solicitud = Solicitud.crear(numero, nueva, self._hoy())
         solicitudes.append(solicitud)
         self._repositorio.guardar()
         return solicitud
@@ -24,7 +25,9 @@ class ServicioSolicitudes:
 
     def asignar(self, numero, numero_responsable):
         solicitud = self.obtener_solicitud(numero)
-        responsable = _buscar(self._repositorio.responsables, "id", numero_responsable, "no existe el responsable")
+        responsable = _buscar(
+            self._repositorio.responsables, "id", numero_responsable, "no existe el responsable"
+        )
         solicitud.asignar(responsable)
         self._repositorio.guardar()
         return responsable
@@ -38,8 +41,12 @@ class ServicioSolicitudes:
     def responsables(self):
         return self._repositorio.responsables
 
-    def solicitudes(self):
-        return self._repositorio.solicitudes
+    def buscar(self, estado=None, legajo=None):
+        return [
+            s
+            for s in self._repositorio.solicitudes
+            if estado in (None, s.estado.value) and legajo in (None, s.legajo)
+        ]
 
     def reporte_general(self):
         return resumir(self._repositorio.solicitudes, self._hoy())

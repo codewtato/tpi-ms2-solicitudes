@@ -73,8 +73,10 @@ class NuevaSolicitud:
     descripcion: str
 
     def __post_init__(self):
-        if len(self.descripcion) < LARGO_MINIMO_DESCRIPCION:
-            raise ErrorSolicitud(f"la descripcion debe tener al menos {LARGO_MINIMO_DESCRIPCION} caracteres")
+        if len(self.descripcion.strip()) < LARGO_MINIMO_DESCRIPCION:
+            raise ErrorSolicitud(
+                f"la descripcion debe tener al menos {LARGO_MINIMO_DESCRIPCION} caracteres"
+            )
 
 
 @dataclass

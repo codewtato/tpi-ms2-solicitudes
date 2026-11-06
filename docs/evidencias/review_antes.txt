@@ -1,0 +1,6 @@
+Pruebas de los hallazgos del review, corridas sobre el codigo del tag etapa-pruebas.
+El caso de Ctrl+C se excluye porque, sin la correccion, interrumpe a pytest.
+CR-07 pasa desde el inicio: esa prueba es un resguardo nuevo, no reproduce un fallo.
+
+test_cr07_todo_tipo_tiene_su_regla PASSED    [100%]
+================== 4 failed, 1 passed, 9 deselected in 0.03s ===================

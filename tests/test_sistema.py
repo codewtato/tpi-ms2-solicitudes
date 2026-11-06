@@ -6,7 +6,14 @@ import pytest
 from conftest import BEDEL, HOY, SECRETARIA, RepositorioEnMemoria, nueva
 
 from gestion_solicitudes.consola import ejecutar
-from gestion_solicitudes.modelos import ErrorSolicitud, Estado, NuevaSolicitud, Prioridad, Solicitud, Tipo
+from gestion_solicitudes.modelos import (
+    ErrorSolicitud,
+    Estado,
+    NuevaSolicitud,
+    Prioridad,
+    Solicitud,
+    Tipo,
+)
 from gestion_solicitudes.repositorio import RepositorioJson
 from gestion_solicitudes.servicio import ServicioSolicitudes, resumir
 
@@ -17,7 +24,9 @@ def solicitud(estado=Estado.PENDIENTE, tipo=Tipo.CERTIFICADO, prioridad=Priorida
     return creada
 
 
-@pytest.mark.parametrize(("tipo", "dias"), [(Tipo.CERTIFICADO, 5), (Tipo.EQUIVALENCIA, 30), (Tipo.RECLAMO, 7)])
+@pytest.mark.parametrize(
+    ("tipo", "dias"), [(Tipo.CERTIFICADO, 5), (Tipo.EQUIVALENCIA, 30), (Tipo.RECLAMO, 7)]
+)
 def test_el_vencimiento_depende_del_tipo(tipo, dias):
     assert solicitud(tipo=tipo).vence == HOY + timedelta(days=dias)
 
@@ -33,7 +42,11 @@ def test_la_descripcion_corta_se_rechaza():
 
 @pytest.mark.parametrize(
     ("origen", "destino"),
-    [(Estado.PENDIENTE, Estado.EN_PROCESO), (Estado.PENDIENTE, Estado.RECHAZADA), (Estado.EN_PROCESO, Estado.RECHAZADA)],
+    [
+        (Estado.PENDIENTE, Estado.EN_PROCESO),
+        (Estado.PENDIENTE, Estado.RECHAZADA),
+        (Estado.EN_PROCESO, Estado.RECHAZADA),
+    ],
 )
 def test_transiciones_permitidas(origen, destino):
     actual = solicitud(origen)
@@ -78,15 +91,29 @@ def test_el_servicio_informa_lo_inexistente(servicio):
 
 
 def test_el_reporte_cuenta_estados_y_solo_vencen_las_abiertas():
-    solicitudes = [solicitud(), solicitud(Estado.EN_PROCESO), solicitud(Estado.RESUELTA), solicitud(Estado.RECHAZADA)]
+    solicitudes = [
+        solicitud(),
+        solicitud(Estado.EN_PROCESO),
+        solicitud(Estado.RESUELTA),
+        solicitud(Estado.RECHAZADA),
+    ]
     assert resumir(solicitudes, HOY + timedelta(days=6)) == [
-        "Total: 4", "Pendientes: 1", "En proceso: 1", "Resueltas: 1", "Rechazadas: 1", "Vencidas: 2",
+        "Total: 4",
+        "Pendientes: 1",
+        "En proceso: 1",
+        "Resueltas: 1",
+        "Rechazadas: 1",
+        "Vencidas: 2",
     ]
 
 
 @pytest.fixture(params=["memoria", "json"])
 def repositorio(request, tmp_path):
-    return RepositorioEnMemoria() if request.param == "memoria" else RepositorioJson(tmp_path / "datos.json")
+    return (
+        RepositorioEnMemoria()
+        if request.param == "memoria"
+        else RepositorioJson(tmp_path / "datos.json")
+    )
 
 
 def test_cualquier_repositorio_sirve_al_servicio(repositorio):

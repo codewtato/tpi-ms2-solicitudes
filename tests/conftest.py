@@ -4,7 +4,13 @@ from datetime import date
 
 import pytest
 
-from gestion_solicitudes.modelos import Estudiante, NuevaSolicitud, Prioridad, Responsable, Tipo
+from gestion_solicitudes.modelos import (
+    Estudiante,
+    NuevaSolicitud,
+    Prioridad,
+    Responsable,
+    Tipo,
+)
 from gestion_solicitudes.servicio import ServicioSolicitudes
 
 HOY = date(2026, 3, 10)
