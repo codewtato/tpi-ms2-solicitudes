@@ -1,15 +1,23 @@
 # sistema de solicitudes academicas
 import json
 from dataclasses import asdict
-from datetime import date, timedelta
+from datetime import date
 
-from gestion_solicitudes.modelos import Estado, Estudiante, NuevaSolicitud, Prioridad, Responsable, Solicitud, Tipo
+from gestion_solicitudes.modelos import (
+    ErrorSolicitud,
+    Estado,
+    Estudiante,
+    NuevaSolicitud,
+    Prioridad,
+    Responsable,
+    Solicitud,
+    Tipo,
+)
 
 solicitudes = []
 estudiantes = []
 responsables = []
 ARCHIVO_DATOS = "datos.json"
-LARGO_MINIMO_DESCRIPCION = 10
 
 
 def solicitud_desde_dict(datos):
@@ -61,40 +69,11 @@ def guardar():
     f.close()
 
 
-def crear_solicitud(numero, nueva, hoy):
-    # los reclamos siempre son prioridad alta
-    prioridad = Prioridad.ALTA if nueva.tipo is Tipo.RECLAMO else nueva.prioridad
-    vence = hoy + timedelta(days=calcular_plazo(nueva.tipo))
-    return Solicitud(numero, nueva.legajo, nueva.tipo, prioridad, nueva.descripcion, hoy, vence)
-
-
-def buscar_por(lista, atributo, valor):
+def buscar_por(lista, atributo, valor, error):
     for elemento in lista:
         if getattr(elemento, atributo) == valor:
             return elemento
-    return None
-
-
-def calcular_plazo(tipo):
-    if tipo is Tipo.CERTIFICADO:
-        return 5
-    if tipo is Tipo.EQUIVALENCIA:
-        return 30
-    return 7
-
-
-def calcular_area(tipo):
-    return "Bedelia" if tipo is Tipo.CERTIFICADO else "Secretaria"
-
-
-def esta_abierta(solicitud):
-    return solicitud.estado in (Estado.PENDIENTE, Estado.EN_PROCESO)
-
-
-def transicion_permitida(actual, nuevo):
-    if actual is Estado.PENDIENTE:
-        return nuevo in (Estado.EN_PROCESO, Estado.RECHAZADA)
-    return nuevo in (Estado.RESUELTA, Estado.RECHAZADA)
+    raise ErrorSolicitud(error)
 
 
 def imprimir_filas(lista):
@@ -104,41 +83,26 @@ def imprimir_filas(lista):
 
 
 def pedir_solicitud():
-    solicitud = buscar_por(solicitudes, "id", int(input("Numero de solicitud: ")))
-    if solicitud is None:
-        print("Error: no existe la solicitud")
-    return solicitud
+    numero = int(input("Numero de solicitud: "))
+    return buscar_por(solicitudes, "id", numero, "no existe la solicitud")
 
 
-def pedir_nueva_solicitud(legajo):
-    try:
-        tipo = Tipo(input("Tipo (certificado/equivalencia/reclamo): "))
-    except ValueError:
-        print("Error: tipo invalido")
-        return None
-    try:
-        prioridad = Prioridad(input("Prioridad (alta/media/baja): "))
-    except ValueError:
-        print("Error: prioridad invalida")
-        return None
-    descripcion = input("Descripcion: ")
-    if len(descripcion) < LARGO_MINIMO_DESCRIPCION:
-        print("Error: la descripcion debe tener al menos 10 caracteres")
-        return None
-    return NuevaSolicitud(legajo, tipo, prioridad, descripcion)
+def pedir_opcion(pregunta, opciones, error):
+    valor = input(f"{pregunta} ({'/'.join(o.value for o in opciones)}): ")
+    for opcion in opciones:
+        if opcion.value == valor:
+            return opcion
+    raise ErrorSolicitud(error)
 
 
 def registrar():
     print("--- Registrar solicitud ---")
     legajo = input("Legajo: ")
-    estudiante = buscar_por(estudiantes, "legajo", legajo)
-    if estudiante is None:
-        print("Error: no existe el estudiante")
-        return
-    nueva = pedir_nueva_solicitud(legajo)
-    if nueva is None:
-        return
-    solicitud = crear_solicitud(len(solicitudes) + 1, nueva, date.today())
+    estudiante = buscar_por(estudiantes, "legajo", legajo, "no existe el estudiante")
+    tipo = pedir_opcion("Tipo", list(Tipo), "tipo invalido")
+    prioridad = pedir_opcion("Prioridad", list(Prioridad), "prioridad invalida")
+    nueva = NuevaSolicitud(legajo, tipo, prioridad, input("Descripcion: "))
+    solicitud = Solicitud.crear(len(solicitudes) + 1, nueva, date.today())
     solicitudes.append(solicitud)
     guardar()
     print(f"Solicitud {solicitud.id} registrada para {estudiante.nombre}")
@@ -148,44 +112,24 @@ def registrar():
 def cambiar_estado():
     print("--- Cambiar estado ---")
     solicitud = pedir_solicitud()
-    if solicitud is None:
-        return
     print(f"Estado actual: {solicitud.estado.value}")
-    valor = input("Nuevo estado (en_proceso/resuelta/rechazada): ")
-    if valor not in ("en_proceso", "resuelta", "rechazada"):
-        print("Error: estado invalido")
-        return
-    nuevo = Estado(valor)
-    if not esta_abierta(solicitud):
-        print("Error: la solicitud ya esta cerrada")
-    elif not transicion_permitida(solicitud.estado, nuevo):
-        print(f"Error: no se puede pasar de {solicitud.estado.value} a {nuevo.value}")
-    elif nuevo is Estado.RESUELTA and solicitud.responsable is None:
-        print("Error: no se puede resolver sin responsable")
-    else:
-        solicitud.estado = nuevo
-        guardar()
-        print(f"Estado actualizado a {nuevo.value}")
+    destinos = [Estado.EN_PROCESO, Estado.RESUELTA, Estado.RECHAZADA]
+    nuevo = pedir_opcion("Nuevo estado", destinos, "estado invalido")
+    solicitud.cambiar_estado(nuevo)
+    guardar()
+    print(f"Estado actualizado a {nuevo.value}")
 
 
 def asignar():
     print("--- Asignar responsable ---")
     solicitud = pedir_solicitud()
-    if solicitud is None:
-        return
     for responsable in responsables:
         print(f"{responsable.id} - {responsable.nombre} ({responsable.area})")
-    responsable = buscar_por(responsables, "id", int(input("Numero de responsable: ")))
-    area = calcular_area(solicitud.tipo)
-    if responsable is None:
-        print("Error: no existe el responsable")
-    elif responsable.area != area:
-        print(f"Error: ese tipo lo atiende {area}")
-    else:
-        solicitud.responsable = responsable.id
-        solicitud.estado = Estado.EN_PROCESO
-        guardar()
-        print(f"Responsable asignado: {responsable.nombre}")
+    numero = int(input("Numero de responsable: "))
+    responsable = buscar_por(responsables, "id", numero, "no existe el responsable")
+    solicitud.asignar(responsable)
+    guardar()
+    print(f"Responsable asignado: {responsable.nombre}")
 
 
 def buscar():
@@ -213,7 +157,7 @@ def contar_estado(estado):
 def reporte():
     print("--- Reporte general ---")
     hoy = date.today()
-    vencidas = [s for s in solicitudes if esta_abierta(s) and s.vence <= hoy]
+    vencidas = [s for s in solicitudes if s.esta_vencida(hoy)]
     print(f"Total: {len(solicitudes)}")
     print(f"Pendientes: {contar_estado(Estado.PENDIENTE)}")
     print(f"En proceso: {contar_estado(Estado.EN_PROCESO)}")
@@ -234,21 +178,24 @@ def main():
         print("5. Reporte general")
         print("0. Salir")
         opcion = input("Opcion: ")
-        if opcion == "1":
-            registrar()
-        elif opcion == "2":
-            cambiar_estado()
-        elif opcion == "3":
-            asignar()
-        elif opcion == "4":
-            buscar()
-        elif opcion == "5":
-            reporte()
-        elif opcion == "0":
-            print("Hasta luego")
-            break
-        else:
-            print("Opcion invalida")
+        try:
+            if opcion == "1":
+                registrar()
+            elif opcion == "2":
+                cambiar_estado()
+            elif opcion == "3":
+                asignar()
+            elif opcion == "4":
+                buscar()
+            elif opcion == "5":
+                reporte()
+            elif opcion == "0":
+                print("Hasta luego")
+                break
+            else:
+                print("Opcion invalida")
+        except ErrorSolicitud as error:
+            print(f"Error: {error}")
 
 
 if __name__ == "__main__":
