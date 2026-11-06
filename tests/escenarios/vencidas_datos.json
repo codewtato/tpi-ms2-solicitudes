@@ -1,0 +1,10 @@
+{
+  "solicitudes": [
+    {"id": 1, "legajo": "1001", "tipo": "certificado", "prioridad": "alta", "descripcion": "Pendiente con plazo vencido", "fecha": "2020-01-01", "vence": "2020-01-06", "estado": "pendiente", "responsable": null},
+    {"id": 2, "legajo": "1002", "tipo": "equivalencia", "prioridad": "media", "descripcion": "En proceso con plazo vencido", "fecha": "2020-01-01", "vence": "2020-01-31", "estado": "en_proceso", "responsable": 2},
+    {"id": 3, "legajo": "1001", "tipo": "certificado", "prioridad": "baja", "descripcion": "Cerrada con fecha pasada", "fecha": "2020-01-01", "vence": "2020-01-06", "estado": "resuelta", "responsable": 1},
+    {"id": 4, "legajo": "1002", "tipo": "certificado", "prioridad": "baja", "descripcion": "Pendiente con plazo futuro", "fecha": "2090-01-01", "vence": "2090-01-06", "estado": "pendiente", "responsable": null}
+  ],
+  "estudiantes": [{"legajo": "1001", "nombre": "Ana Prueba"}, {"legajo": "1002", "nombre": "Bruno Ejemplo"}],
+  "responsables": [{"id": 1, "nombre": "Diego Bedel", "area": "Bedelia"}, {"id": 2, "nombre": "Elena Secretaria", "area": "Secretaria"}]
+}

@@ -1,0 +1,81 @@
+{
+  "estudiantes": [
+    {
+      "legajo": "1001",
+      "nombre": "Ana Prueba"
+    },
+    {
+      "legajo": "1002",
+      "nombre": "Bruno Ejemplo"
+    }
+  ],
+  "responsables": [
+    {
+      "area": "Bedelia",
+      "id": 1,
+      "nombre": "Diego Bedel"
+    },
+    {
+      "area": "Secretaria",
+      "id": 2,
+      "nombre": "Elena Secretaria"
+    }
+  ],
+  "solicitudes": [
+    {
+      "descripcion": "Certificado de alumno regular",
+      "estado": "resuelta",
+      "fecha": "<FECHA>",
+      "id": 1,
+      "legajo": "1001",
+      "prioridad": "media",
+      "responsable": 1,
+      "tipo": "certificado",
+      "vence": "<FECHA>"
+    },
+    {
+      "descripcion": "Equivalencia de Matematica I",
+      "estado": "rechazada",
+      "fecha": "<FECHA>",
+      "id": 2,
+      "legajo": "1002",
+      "prioridad": "baja",
+      "responsable": 2,
+      "tipo": "equivalencia",
+      "vence": "<FECHA>"
+    },
+    {
+      "descripcion": "Revision de nota del parcial 2",
+      "estado": "en_proceso",
+      "fecha": "<FECHA>",
+      "id": 3,
+      "legajo": "1002",
+      "prioridad": "alta",
+      "responsable": 2,
+      "tipo": "reclamo",
+      "vence": "<FECHA>"
+    },
+    {
+      "descripcion": "Certificado analitico parcial",
+      "estado": "rechazada",
+      "fecha": "<FECHA>",
+      "id": 4,
+      "legajo": "1001",
+      "prioridad": "alta",
+      "responsable": null,
+      "tipo": "certificado",
+      "vence": "<FECHA>"
+    },
+    {
+      "descripcion": "Certificado de examen rendido",
+      "estado": "pendiente",
+      "fecha": "<FECHA>",
+      "id": 5,
+      "legajo": "1001",
+      "prioridad": "baja",
+      "responsable": null,
+      "tipo": "certificado",
+      "vence": "<FECHA>"
+    }
+  ]
+}

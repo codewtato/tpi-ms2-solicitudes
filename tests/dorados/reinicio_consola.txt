@@ -1,0 +1,52 @@
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Buscar solicitudes ---
+1. Por estado
+2. Por legajo
+3. Todas
+Opcion: #1 | 1001 | certificado | media | resuelta | vence <FECHA>
+#2 | 1002 | equivalencia | baja | rechazada | vence <FECHA>
+#3 | 1002 | reclamo | alta | en_proceso | vence <FECHA>
+#4 | 1001 | certificado | alta | rechazada | vence <FECHA>
+Encontradas: 4
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Registrar solicitud ---
+Legajo: Tipo (certificado/equivalencia/reclamo): Prioridad (alta/media/baja): Descripcion: Solicitud 5 registrada para Ana Prueba
+Prioridad: baja - Vence: <FECHA>
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Reporte general ---
+Total: 5
+Pendientes: 1
+En proceso: 1
+Resueltas: 1
+Rechazadas: 2
+Vencidas: 0
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: Hasta luego

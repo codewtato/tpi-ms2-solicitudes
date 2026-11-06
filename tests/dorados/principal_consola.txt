@@ -1,0 +1,379 @@
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: Opcion invalida
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Registrar solicitud ---
+Legajo: Error: no existe el estudiante
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Registrar solicitud ---
+Legajo: Tipo (certificado/equivalencia/reclamo): Error: tipo invalido
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Registrar solicitud ---
+Legajo: Tipo (certificado/equivalencia/reclamo): Prioridad (alta/media/baja): Error: prioridad invalida
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Registrar solicitud ---
+Legajo: Tipo (certificado/equivalencia/reclamo): Prioridad (alta/media/baja): Descripcion: Error: la descripcion debe tener al menos 10 caracteres
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Registrar solicitud ---
+Legajo: Tipo (certificado/equivalencia/reclamo): Prioridad (alta/media/baja): Descripcion: Solicitud 1 registrada para Ana Prueba
+Prioridad: media - Vence: <FECHA>
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Registrar solicitud ---
+Legajo: Tipo (certificado/equivalencia/reclamo): Prioridad (alta/media/baja): Descripcion: Solicitud 2 registrada para Bruno Ejemplo
+Prioridad: baja - Vence: <FECHA>
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Registrar solicitud ---
+Legajo: Tipo (certificado/equivalencia/reclamo): Prioridad (alta/media/baja): Descripcion: Solicitud 3 registrada para Bruno Ejemplo
+Prioridad: alta - Vence: <FECHA>
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Registrar solicitud ---
+Legajo: Tipo (certificado/equivalencia/reclamo): Prioridad (alta/media/baja): Descripcion: Solicitud 4 registrada para Ana Prueba
+Prioridad: alta - Vence: <FECHA>
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Cambiar estado ---
+Numero de solicitud: Error: no existe la solicitud
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Cambiar estado ---
+Numero de solicitud: Estado actual: pendiente
+Nuevo estado (en_proceso/resuelta/rechazada): Error: estado invalido
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Cambiar estado ---
+Numero de solicitud: Estado actual: pendiente
+Nuevo estado (en_proceso/resuelta/rechazada): Error: no se puede pasar de pendiente a resuelta
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Cambiar estado ---
+Numero de solicitud: Estado actual: pendiente
+Nuevo estado (en_proceso/resuelta/rechazada): Estado actualizado a en_proceso
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Cambiar estado ---
+Numero de solicitud: Estado actual: en_proceso
+Nuevo estado (en_proceso/resuelta/rechazada): Error: no se puede resolver sin responsable
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Asignar responsable ---
+Numero de solicitud: Error: no existe la solicitud
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Asignar responsable ---
+Numero de solicitud: 1 - Diego Bedel (Bedelia)
+2 - Elena Secretaria (Secretaria)
+Numero de responsable: Error: no existe el responsable
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Asignar responsable ---
+Numero de solicitud: 1 - Diego Bedel (Bedelia)
+2 - Elena Secretaria (Secretaria)
+Numero de responsable: Error: ese tipo lo atiende Secretaria
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Asignar responsable ---
+Numero de solicitud: 1 - Diego Bedel (Bedelia)
+2 - Elena Secretaria (Secretaria)
+Numero de responsable: Responsable asignado: Elena Secretaria
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Asignar responsable ---
+Numero de solicitud: 1 - Diego Bedel (Bedelia)
+2 - Elena Secretaria (Secretaria)
+Numero de responsable: Responsable asignado: Elena Secretaria
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Asignar responsable ---
+Numero de solicitud: 1 - Diego Bedel (Bedelia)
+2 - Elena Secretaria (Secretaria)
+Numero de responsable: Responsable asignado: Diego Bedel
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Cambiar estado ---
+Numero de solicitud: Estado actual: en_proceso
+Nuevo estado (en_proceso/resuelta/rechazada): Estado actualizado a resuelta
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Cambiar estado ---
+Numero de solicitud: Estado actual: resuelta
+Nuevo estado (en_proceso/resuelta/rechazada): Error: la solicitud ya esta cerrada
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Cambiar estado ---
+Numero de solicitud: Estado actual: en_proceso
+Nuevo estado (en_proceso/resuelta/rechazada): Error: no se puede pasar de en_proceso a en_proceso
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Cambiar estado ---
+Numero de solicitud: Estado actual: en_proceso
+Nuevo estado (en_proceso/resuelta/rechazada): Estado actualizado a rechazada
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Cambiar estado ---
+Numero de solicitud: Estado actual: pendiente
+Nuevo estado (en_proceso/resuelta/rechazada): Estado actualizado a rechazada
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Cambiar estado ---
+Numero de solicitud: Estado actual: rechazada
+Nuevo estado (en_proceso/resuelta/rechazada): Error: la solicitud ya esta cerrada
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Buscar solicitudes ---
+1. Por estado
+2. Por legajo
+3. Todas
+Opcion: Estado: #3 | 1002 | reclamo | alta | en_proceso | vence <FECHA>
+Encontradas: 1
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Buscar solicitudes ---
+1. Por estado
+2. Por legajo
+3. Todas
+Opcion: Legajo: #2 | 1002 | equivalencia | baja | rechazada | vence <FECHA>
+#3 | 1002 | reclamo | alta | en_proceso | vence <FECHA>
+Encontradas: 2
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Buscar solicitudes ---
+1. Por estado
+2. Por legajo
+3. Todas
+Opcion: Legajo: Encontradas: 0
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Buscar solicitudes ---
+1. Por estado
+2. Por legajo
+3. Todas
+Opcion: #1 | 1001 | certificado | media | resuelta | vence <FECHA>
+#2 | 1002 | equivalencia | baja | rechazada | vence <FECHA>
+#3 | 1002 | reclamo | alta | en_proceso | vence <FECHA>
+#4 | 1001 | certificado | alta | rechazada | vence <FECHA>
+Encontradas: 4
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Buscar solicitudes ---
+1. Por estado
+2. Por legajo
+3. Todas
+Opcion: Opcion invalida
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: --- Reporte general ---
+Total: 4
+Pendientes: 0
+En proceso: 1
+Resueltas: 1
+Rechazadas: 2
+Vencidas: 0
+
+=== Solicitudes Academicas ===
+1. Registrar solicitud
+2. Cambiar estado
+3. Asignar responsable
+4. Buscar solicitudes
+5. Reporte general
+0. Salir
+Opcion: Hasta luego
